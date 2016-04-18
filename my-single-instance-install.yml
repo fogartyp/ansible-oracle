@@ -1,0 +1,16 @@
+---
+ - name: Host configuration
+   hosts: all
+   user: root
+   sudo: yes
+   roles:
+    - common
+    - orahost
+ - name: Oracle Database server installation & Database Creation
+   hosts: all
+   user: root
+   sudo: yes
+   sudo_user: oracle
+   roles:
+    - oraswdb-install
+    - oradb-create

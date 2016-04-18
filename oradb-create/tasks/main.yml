@@ -21,7 +21,7 @@
        - oracle_databases
        - checkdbexist.results
     when: master_node and item.1.stdout != "1"
-    tags: 
+    tags:
     - dbcaresponse
 
 #  - name: Check memory
@@ -33,8 +33,8 @@
     with_together:
        - oracle_databases
        - checkdbexist.results
-    sudo: yes
-    sudo_user: "{{ oracle_user }}"
+    become: yes
+    become_user: "{{ oracle_user }}"
     when: master_node and item.1.stdout != "1" and "{{ item.0.state }}"|upper == "PRESENT"
     tags:
       - oradbcreate
@@ -47,7 +47,7 @@
     when: oradbcreate.changed
 
 #  - name: Add default services to databases
-#    shell: "{{ oracle_home_db }}/bin/srvctl add service -db {{ item.value.oracle_database }} 
+#    shell: "{{ oracle_home_db }}/bin/srvctl add service -db {{ item.value.oracle_database }}
 #    with_dict: oracle_databases
 #    when: master_node and oracle_install_option_gi == 'HA_CONFIG'
 #    tags:
@@ -60,7 +60,7 @@
 #    tags:
 #      - srvctlconfig
 #    register: srvctlconfig
-      
+
 
 #  - debug: var=srvctlconfig.stdout_lines
 #    when: oracle_install_option_gi == 'CRS_CONFIG' or oracle_install_option_gi == 'HA_CONFIG'
@@ -71,7 +71,7 @@
     with_items: oracle_databases
     register: dbs
     tags: dotprofile_db
-    
+
   - name: Add dotprofile (2)
     template: src=dotprofile-db.j2 dest={{ oracle_user_home }}/.profile_{{ item.0.oracle_db_name }} owner={{ oracle_user }} group={{ oracle_group }} mode=775 backup=yes
     with_together:
@@ -86,14 +86,14 @@
        - dbs.results
     when: item.0.oracle_db_type != "SI"
     tags: update_oratab
-    
+
   - name: Check if database is running
     shell: ps -ef |grep pmon |grep -v grep
     tags:
      - psout
     register: psout
     ignore_errors: true
-      
+
 
   - debug: var=psout.stdout_lines
     tags:
