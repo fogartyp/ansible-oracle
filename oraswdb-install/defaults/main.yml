@@ -21,8 +21,8 @@
   install_from_nfs: false
   nfs_server_sw: nfsserver
   nfs_server_sw_path: /path/to/orasw
-  oracle_sw_copy: "{% if install_from_nfs==true %}true{% else %}false{% endif %}"
-  oracle_sw_unpack: "{% if install_from_nfs==true %}true{% else %}false{% endif %}"
+  oracle_sw_copy: "{% if install_from_nfs==true %}false{% else %}true{% endif %}"
+  oracle_sw_unpack: "{% if install_from_nfs==true %}false{% else %}true{% endif %}"
   oracle_db_responsefile: "{{ item.0.home}}_{{ ansible_hostname }}.rsp"
   oracle_db_run_install: "install_{{ item.0.home }}_{{ ansible_hostname }}.sh"
   #oracle_db_responsefile: "{% if item.0.oracle_db_name is defined %}{{ item.0.oracle_db_name }}_{{ ansible_hostname }}.rsp{% else %}nodbname_defined_{{ ansible_hostname }}.rsp{% endif %}"
