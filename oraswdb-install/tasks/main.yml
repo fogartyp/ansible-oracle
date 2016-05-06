@@ -215,9 +215,6 @@
     tags:
       - runroot
 
-  - name: Add dbora.service to allow Systemd to start and stop databases on boot
-    template: src=dbora.service.j2 dest=xxxxxxx owner={{ oracle_user }} group={{ oracle_group }} mode=775 backup=yes
-
   - name: Add additional info to glogin.sql (1)
     lineinfile: dest="{{ oracle_home_db }}/sqlplus/admin/glogin.sql" line='set sqlprompt "_user @ _connect_identifier:>"' backup=yes
     with_items: oracle_databases
